@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "module": "commonjs",
+        "target": "ES2020",
+        "esModuleInterop": true,  
+        "allowJs": true
+    }
+}
+
+ // autoDir: onde gera o codigo 
+ // commonjs: transformar import para require
+ // targer: -v EcmaScript
+
+ // alowwjs; permita q aquivos de exe"config.js" permita em nosso "./dist"
