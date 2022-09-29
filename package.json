@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Paul0-Henrique-Da-Silva/node-api/issues"
   },
-  "homepage": "https://github.com/Paul0-Henrique-Da-Silva/node-api#readme"
+  "homepage": "https://github.com/Paul0-Henrique-Da-Silva/node-api#readme",
+  "devDependencies": {
+    "git-commit-msg-linter": "^4.2.1"
+  }
 }
