@@ -19,20 +19,21 @@
   },
   "homepage": "https://github.com/Paul0-Henrique-Da-Silva/node-api#readme",
   "devDependencies": {
-    "@types/jest": "^24.0.25",
+    "@types/jest": "^29.1.1",
     "@types/node": "^13.1.6",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "eslint": "^6.8.0",
+    "eslint-config-standard-with-typescript": "^11.0.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-node": "^9.2.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "git-commit-msg-linter": "^4.2.1",
     "husky": "^8.0.1",
-    "jest": "^24.9.0",
+    "jest": "^29.1.2",
     "lint-staged": "^9.5.0",
-    "ts-jest": "^24.3.0",
-    "typescript": "^3.7.4",
-    "eslint-plugin-standard": "^4.0.1",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-import": "^2.20.0",
-    "eslint": "^6.8.0",
-    "@typescript-eslint/eslint-plugin": "^2.16.0",
-    "eslint-config-standard-with-typescript": "^11.0.1",
-    "eslint-plugin-node": "^9.2.0"
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.3.0"
   }
 }
