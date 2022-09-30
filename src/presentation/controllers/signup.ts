@@ -13,5 +13,8 @@ export class SigUpController {
     if (!httpRequest.body.password) {
       return badRequest(new MissingParamError('password'))
     }
+    if (!httpRequest.body.passwordConfirm) {
+      return badRequest(new MissingParamError('passwordConfirm'))
+    }
   }
 }
