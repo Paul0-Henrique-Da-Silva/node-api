@@ -1,4 +1,5 @@
 import { SigUpController } from '../src/presentation/controllers/signup'
+import { MissingParamError } from '../src/presentation/errors/missing-param-error'
 
 describe('SinUp Controllers', () => {
   test('Nome não for aprovado, "return erro code 400"', () => {
@@ -12,7 +13,20 @@ describe('SinUp Controllers', () => {
     }
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('Missing param: name'))
-  }
-  )
+    expect(httpResponse.body).toEqual(new MissingParamError('name'))
+  })
+
+  test('Email não for aprovado, "return erro code 400"', () => {
+    const sut = new SigUpController()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        password: 'any_password',
+        passwordConfirm: 'any_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new MissingParamError('email'))
+  })
 })
