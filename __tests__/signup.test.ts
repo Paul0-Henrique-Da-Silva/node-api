@@ -1,9 +1,13 @@
 import { SigUpController } from '../src/presentation/controllers/signup'
 import { MissingParamError } from '../src/presentation/errors/missing-param-error'
 
+const makesut = (): SigUpController => {
+  return new SigUpController()
+}
+
 describe('SinUp Controllers', () => {
   test('Nome não for aprovado, "return erro code 400"', () => {
-    const sut = new SigUpController()
+    const sut = makesut()
     const httpRequest = {
       body: {
         email: 'any_email@gmail.com',
@@ -17,7 +21,7 @@ describe('SinUp Controllers', () => {
   })
 
   test('Email não for aprovado, "return erro code 400"', () => {
-    const sut = new SigUpController()
+    const sut = makesut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -31,7 +35,7 @@ describe('SinUp Controllers', () => {
   })
 
   test('Password não for aprovado, "return erro code 400"', () => {
-    const sut = new SigUpController()
+    const sut = makesut()
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -45,7 +49,7 @@ describe('SinUp Controllers', () => {
   })
 
   test('PasswordConfirm não for aprovado, "return erro code 400"', () => {
-    const sut = new SigUpController()
+    const sut = makesut()
     const httpRequest = {
       body: {
         name: 'any_name',
