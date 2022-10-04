@@ -75,6 +75,7 @@ describe('SinUp Controllers', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirm'))
   })
+
   test('Email invalido, "return erro code 400"', () => {
     const { sut, emailValidatorStub } = makesut()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
@@ -89,5 +90,20 @@ describe('SinUp Controllers', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
+  })
+
+  test('Should call EmailValidator with correct email', () => {
+    const { sut, emailValidatorStub } = makesut()
+    const isValid = jest.spyOn(emailValidatorStub, 'isValid')
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@gmail.com',
+        password: 'any_password',
+        passwordConfirm: 'any_password'
+      }
+    }
+    sut.handle(httpRequest)
+    expect(isValid).toHaveBeenCalledWith('any_email@gmail.com')
   })
 })
