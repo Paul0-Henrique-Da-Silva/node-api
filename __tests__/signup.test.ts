@@ -13,6 +13,7 @@ const makeEmailValidator = (): EmailValidator => {
       return true
     }
   }
+
   return new EmailValidatorStub()
 }
 
