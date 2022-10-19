@@ -1,6 +1,6 @@
 import { HttpRequest, HttpResponse } from '../protocols/http'
 import { MissingParamError, InvalidParamError } from '../errors/index'
-import { badRequest, serverError } from '../helpers/http-helper'
+import { badRequest, serverError, ok } from '../helpers/http-helper'
 import { EmailValidator } from '../protocols/emailValidator'
 import { AddAccount } from '../../domain/usercases/add-account'
 
@@ -31,7 +31,7 @@ export class SigUpController {
         return badRequest(new InvalidParamError('email'))
       }
       const account = this.addAccount.add({ email, name, password })
-      return { statusCode: 200, body: account }
+      return ok(account)
     } catch (error) {
       return serverError()
     }
