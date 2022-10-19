@@ -113,6 +113,7 @@ describe('SinUp Controllers', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('password'))
   })
+
   test('Email invalido, "return erro code 400"', () => {
     const { sut, emailValidatorStub } = makesut()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
@@ -179,5 +180,23 @@ describe('SinUp Controllers', () => {
       email: 'any_email@gmail.com',
       password: 'any_password'
     })
+  })
+
+  test('Retorne erro 500 se o "AddAccount" tiver uma exceção', () => {
+    const { sut, addAccountStub } = makesut()
+    jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@gmail.com',
+        password: 'any_password',
+        passwordConfirm: 'any_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })
