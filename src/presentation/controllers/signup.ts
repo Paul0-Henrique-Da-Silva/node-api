@@ -13,7 +13,7 @@ export class SigUpController {
     this.addAccount = addAccount
   }
 
-  handle (httpRequest: HttpRequest): HttpResponse {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const requireFields = ['name', 'email', 'password', 'passwordConfirm']
       for (const field of requireFields) {
@@ -30,7 +30,7 @@ export class SigUpController {
       if (!isValid) {
         return badRequest(new InvalidParamError('email'))
       }
-      const account = this.addAccount.add({ email, name, password })
+      const account = await this.addAccount.add({ email, name, password })
       return ok(account)
     } catch (error) {
       return serverError()
