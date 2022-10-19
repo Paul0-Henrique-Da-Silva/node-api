@@ -1,11 +1,8 @@
 import { SigUpController } from '../src/presentation/controllers/signup'
 import { MissingParamError, InvalidParamError, ServerError } from '../src/presentation/errors/index'
 import { EmailValidator } from '../src/presentation/protocols/emailValidator'
-
-interface SutTypes {
-  sut: SigUpController
-  emailValidatorStub: EmailValidator
-}
+import { AccountModel } from '../src/domain/models/account'
+import { AddAccountModel, AddAccount } from '../src/domain/usercases/add-account'
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -13,14 +10,36 @@ const makeEmailValidator = (): EmailValidator => {
       return true
     }
   }
-
   return new EmailValidatorStub()
+}
+
+const makeAddAccount = (): AddAccount => {
+  class AddAccountStub implements AddAccount {
+    add (account: AddAccountModel): AccountModel {
+      const fakeAccount = {
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email@gmail.com',
+        password: 'valid_password'
+
+      }
+      return fakeAccount
+    }
+  }
+  return new AddAccountStub()
+}
+
+interface SutTypes {
+  sut: SigUpController
+  emailValidatorStub: EmailValidator
+  addAccountStub: AddAccount
 }
 
 const makesut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
-  const sut = new SigUpController(emailValidatorStub)
-  return { sut, emailValidatorStub }
+  const addAccountStub = makeAddAccount()
+  const sut = new SigUpController(emailValidatorStub, addAccountStub)
+  return { sut, emailValidatorStub, addAccountStub }
 }
 
 describe('SinUp Controllers', () => {
@@ -81,7 +100,7 @@ describe('SinUp Controllers', () => {
     expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirm'))
   })
 
-  test('Se a senha password e PasswordConfim são iguais, "return erro code 400"', () => {
+  test('Se a senha password e PasswordConfim não são iguais, "return erro code 400"', () => {
     const { sut } = makesut()
     const httpRequest = {
       body: {
@@ -125,7 +144,7 @@ describe('SinUp Controllers', () => {
     expect(isValid).toHaveBeenCalledWith('any_email@gmail.com')
   })
 
-  test('Retorne erro 500 se o "EmailValidator throws', () => {
+  test('Retorne erro 500 se o "EmailValidator" tiver uma exceção', () => {
     const { sut, emailValidatorStub } = makesut()
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
       throw new Error()
@@ -141,5 +160,24 @@ describe('SinUp Controllers', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('Criar uma conta  com valores correto', () => {
+    const { sut, addAccountStub } = makesut()
+    const addSpy = jest.spyOn(addAccountStub, 'add')
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@gmail.com',
+        password: 'any_password',
+        passwordConfirm: 'any_password'
+      }
+    }
+    sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@gmail.com',
+      password: 'any_password'
+    })
   })
 })
