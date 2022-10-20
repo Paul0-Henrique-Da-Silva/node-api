@@ -10,7 +10,13 @@ describe('EmailValidator', () => {
   })
   test('Se retorno for verdadeiro , retorne "true"', () => {
     const sut = new EmailValidatorAdapter()
-    const isValid = sut.isValid('invalid_email@gmail.com')
+    const isValid = sut.isValid('valid_email@gmail.com')
     expect(isValid).toBe(true)
+  })
+  test(' Chame email correto com validator ', () => {
+    const sut = new EmailValidatorAdapter()
+    const isEmailSpy = jest.spyOn(validator, 'isEmail')
+    sut.isValid('any_email@gmail.com')
+    expect(isEmailSpy).toHaveBeenCalledWith('any_email@gmail.com')
   })
 })
