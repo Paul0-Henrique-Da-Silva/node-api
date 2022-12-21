@@ -6,13 +6,17 @@ interface SubTypes {
     encrypterStub: Encrypter
 }
 
-const makeSut = (): SubTypes => {
-    class EncrypterStub {
+const makeEncrypter = (): Encrypter => {
+    class EncrypterStub implements Encrypter {
         async encrypt(value: string): Promise<string> {
             return new Promise(resolve => resolve('hashed_password'))
         }
     }
-    const encrypterStub = new EncrypterStub() // logica q vai criptar
+    return new EncrypterStub()
+}
+
+const makeSut = (): SubTypes => {
+    const encrypterStub = makeEncrypter() // logica q vai criptar
     const sut = new DbAddAccount(encrypterStub) // passada no contructor 
     return { sut, encrypterStub }
 }
