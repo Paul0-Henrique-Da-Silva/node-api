@@ -1,6 +1,6 @@
 import { SigUpController } from '../src/presentation/controllers/signup'
 import { MissingParamError, InvalidParamError, ServerError } from '../src/presentation/errors/index'
-import { EmailValidator } from '../src/presentation/protocols/emailValidator'
+import { EmailValidator } from '../src/presentation/protocols/email-validator'
 import { AccountModel } from '../src/domain/models/account'
 import { AddAccountModel, AddAccount } from '../src/domain/usercases/add-account'
 
