@@ -34,6 +34,7 @@ export class SigUpController {
       return ok(account)
 
     } catch (error) {
+      // console.error(error);
       return serverError()
     }
   }
