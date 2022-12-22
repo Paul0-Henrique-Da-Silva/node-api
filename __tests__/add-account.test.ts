@@ -43,9 +43,7 @@ const makeSut = (): SubTypes => {
 describe('DbAddAccount Usecase', () => {
     test('A senha é cryptografada com a senha correta', async () => {
         const { sut, encrypterStub } = makeSut()
-
         const encryptSpy = jest.spyOn(encrypterStub, 'encrypt') // monitora o metodo
-
         const accountData = { name: 'valid_name', email: 'valid_email', password: 'valid_password' }
         await sut.add(accountData) //null
 
@@ -63,13 +61,11 @@ describe('DbAddAccount Usecase', () => {
 
         await expect(promise).rejects.toThrow()
     })
+
     test('AddAcccountRepository com calores corretos', async () => {
         const { sut, addAcccountRepositoryStub } = makeSut()
-
         const addSpy = jest.spyOn(addAcccountRepositoryStub, 'add' )
-
         const accountData = { name: 'valid_name', email: 'valid_email', password: 'hashed_password' }
-
         await sut.add(accountData) 
 
         expect(addSpy)
@@ -77,4 +73,17 @@ describe('DbAddAccount Usecase', () => {
                 { name: 'valid_name', email: 'valid_email', password: 'hashed_password'
              }) 
     })
+
+    test('Retorne um erro se tiver alguma exceçâo', async () => {
+        const { sut, addAcccountRepositoryStub } = makeSut()
+
+        jest.spyOn(addAcccountRepositoryStub, 'add')
+            .mockResolvedValueOnce(new Promise((_resolve, reject) => reject(new Error())))
+
+        const accountData = { name: 'valid_name', email: 'valid_email', password: 'valid_password' }
+        const promise = sut.add(accountData)
+
+        await expect(promise).rejects.toThrow()
+    })
+
 })
