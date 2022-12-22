@@ -74,7 +74,7 @@ describe('DbAddAccount Usecase', () => {
              }) 
     })
 
-    test('Retorne um erro se tiver alguma exceçâo', async () => {
+    test('Retorne um erro se tiver alguma exceçâo em addAcccountRepositoryStub', async () => {
         const { sut, addAcccountRepositoryStub } = makeSut()
 
         jest.spyOn(addAcccountRepositoryStub, 'add')
@@ -86,4 +86,14 @@ describe('DbAddAccount Usecase', () => {
         await expect(promise).rejects.toThrow()
     })
 
+    test('retorne um conta com valores corretos', async () => {
+        const { sut } = makeSut()
+        const accountData = { name: 'valid_name', email: 'valid_email', password: 'valid_password' }
+        const account = await sut.add(accountData) 
+
+        expect(account)
+            .toEqual( 
+                { id: 'valid_id', name: 'valid_name', email: 'valid_email', password: 'hashed_password'
+             }) 
+    })
 })
