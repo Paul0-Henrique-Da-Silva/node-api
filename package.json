@@ -19,8 +19,10 @@
   },
   "homepage": "https://github.com/Paul0-Henrique-Da-Silva/node-api#readme",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/jest": "^29.1.1",
     "@types/node": "^13.1.6",
+    "@types/validator": "^13.6.3",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "eslint": "^6.8.0",
     "eslint-config-standard-with-typescript": "^11.0.1",
@@ -37,7 +39,7 @@
     "typescript": "^4.3.0"
   },
   "dependencies": {
-    "@types/validator": "^13.6.3",
+    "bcrypt": "^5.0.1",
     "validator": "^13.6.0"
   }
 }
