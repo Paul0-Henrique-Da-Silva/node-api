@@ -74,7 +74,7 @@ describe('DbAddAccount Usecase', () => {
              }) 
     })
 
-    test('Retorne um erro se tiver alguma exceçâo em addAcccountRepositoryStub', async () => {
+    test('', async () => {
         const { sut, addAcccountRepositoryStub } = makeSut()
 
         jest.spyOn(addAcccountRepositoryStub, 'add')
